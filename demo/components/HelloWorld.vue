@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <button @click="exportExcel">导入表格</button>
+    <button @click="exportExcel">导出表格</button>
   </div>
 </template>
 
@@ -39,24 +39,19 @@ export default {
     exportExcel(){
       require.ensure([], () => {
         const { export_json_to_excel } = require('../vendor/Export2Excel'); //这里必须使用绝对路径
-        const tHeader = ['车牌号', '司机', '运载类型', '方量', '进出', '单位', '时间']
-        const filterVal = ['CARNUMBER', 'DRIVER', 'CARTYPE', 'SQUARE','INOUTFLAG','DEPARTMENT','INOUTTIME']
+        const tHeader = ['车牌号', '司机', '运载类型', '方量', '进出', '单位', '时间']//表头信息
+        const filterVal = ['CARNUMBER', 'DRIVER', 'CARTYPE', 'SQUARE','INOUTFLAG','DEPARTMENT','INOUTTIME']//对应表头的字段名
         const list = this.totalList;
         const data = this.formatJson(filterVal, list);
         export_json_to_excel(tHeader, data, '进出管理列表');// 导出的表格名称，根据需要自己命名
       })
-		},	
-		formatJson(filterVal, jsonData){
-			return jsonData.map(v =>{
-				return filterVal.map(j => v[j])
-			})
-		},
+     },	
+     formatJson(filterVal, jsonData){
+     	return jsonData.map(v =>{
+    	  return filterVal.map(j => v[j])
+        })
+     },
   }
- 
+
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>
